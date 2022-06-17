@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Solution | Devmountain Foundations</title>
+
+      <link
+        href="../_static/pygments.css"
+        rel="stylesheet"
+        type="text/css"
+      />
+      <link href="../_static/devmountain.css" rel="stylesheet" type="text/css" />
+          <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/devmountain.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+
+      <script src="../_static/pdfobject.min.js"></script>
+      
+  </head>
+  <body>
+      <div id="handouts-container">
+        <header id="page-header">
+            <p id="project-title">Devmountain Foundations</p>
+            <p id="page-title">Solution</p>
+              <p id="backlink">
+                <a href="/"> &laquo; Back to Homepage </a>
+              </p>
+        </header>
+
+        <nav id="page-toc"><ul>
+<li><a class="reference internal" href="#">Solution</a><ul>
+<li><a class="reference internal" href="#code">Code</a></li>
+<li><a class="reference internal" href="#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+
+        <main id="page-content">
+            <section class="section" id="solution">
+<h1>Solution</h1>
+<section class="section" id="code">
+<h2>Code</h2>
+<div class="literal-block-wrapper docutils container" id="melon-sales-report-soln">
+<div class="code-block-caption"><span class="caption-text">accounting.py</span></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">order_tally</span><span class="p">(</span><span class="n">orders_by_type_file</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return tally of melons by type.&quot;&quot;&quot;</span>
+
+    <span class="n">tallies</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Musk&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+               <span class="s2">&quot;Hybrid&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+               <span class="s2">&quot;Watermelon&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+               <span class="s2">&quot;Winter&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+
+    <span class="n">orders</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">orders_by_type_file</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span><span class="p">:</span>
+        <span class="c1"># Each line has &quot;id|melontype|count&quot;</span>
+        <span class="c1"># We want to split this and get the melontype and count.</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)</span>
+        <span class="n">melon_type</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">melon_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">tallies</span><span class="p">[</span><span class="n">melon_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">tallies</span><span class="p">[</span><span class="n">melon_type</span><span class="p">]</span> <span class="o">+</span> <span class="n">melon_count</span>
+
+    <span class="n">orders</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">tallies</span>
+
+
+<span class="k">def</span> <span class="nf">total_revenue</span><span class="p">(</span><span class="n">tallies</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return total revenue in sales.&quot;&quot;&quot;</span>
+
+    <span class="n">MELON_PRICES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Musk&quot;</span><span class="p">:</span> <span class="mf">1.15</span><span class="p">,</span>
+                    <span class="s2">&quot;Hybrid&quot;</span><span class="p">:</span> <span class="mf">1.30</span><span class="p">,</span>
+                    <span class="s2">&quot;Watermelon&quot;</span><span class="p">:</span> <span class="mf">1.75</span><span class="p">,</span>
+                    <span class="s2">&quot;Winter&quot;</span><span class="p">:</span> <span class="mf">4.00</span><span class="p">}</span>
+
+    <span class="n">total_revenue</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TOTAL REVENUE&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">melon_type</span> <span class="ow">in</span> <span class="n">tallies</span><span class="p">:</span>
+        <span class="n">price</span> <span class="o">=</span> <span class="n">MELON_PRICES</span><span class="p">[</span><span class="n">melon_type</span><span class="p">]</span>
+        <span class="n">melon_revenue</span> <span class="o">=</span> <span class="n">price</span> <span class="o">*</span> <span class="n">tallies</span><span class="p">[</span><span class="n">melon_type</span><span class="p">]</span>
+        <span class="n">total_revenue</span> <span class="o">=</span> <span class="n">total_revenue</span> <span class="o">+</span> <span class="n">melon_revenue</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;We sold </span><span class="si">{</span><span class="n">tallies</span><span class="p">[</span><span class="n">melon_type</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">melon_type</span><span class="si">}</span><span class="s2"> melons at $</span><span class="si">{</span><span class="n">price</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> each for a total of $</span><span class="si">{</span><span class="n">melon_revenue</span><span class="si">:</span><span class="s2">,.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">total_revenue</span>
+
+
+<span class="k">def</span> <span class="nf">sales_comparison</span><span class="p">(</span><span class="n">orders_with_sales_file</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compare online and salesperson-generated sales.&quot;&quot;&quot;</span>
+
+    <span class="n">orders</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">orders_with_sales_file</span><span class="p">)</span>
+    <span class="n">online_revenue</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">salespeople_revenue</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span><span class="p">:</span>
+        <span class="c1"># The third column of each line has either the saleperson</span>
+        <span class="c1"># name or ONLINE. We&#39;ll find that and then use it to decide</span>
+        <span class="c1"># who gets credit for this sale.</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ONLINE&quot;</span><span class="p">:</span>
+            <span class="n">online_revenue</span> <span class="o">=</span> <span class="n">online_revenue</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">salespeople_revenue</span> <span class="o">=</span> <span class="n">salespeople_revenue</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SALES DATA&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Salespeople generated $</span><span class="si">{</span><span class="n">salespeople_revenue</span><span class="si">:</span><span class="s2">,.2f</span><span class="si">}</span><span class="s2"> in revenue.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Internet sales generated $</span><span class="si">{</span><span class="n">online_revenue</span><span class="si">:</span><span class="s2">,.2f</span><span class="si">}</span><span class="s2"> in revenue.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">salespeople_revenue</span> <span class="o">&gt;</span> <span class="n">online_revenue</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Guess there&#39;s some value to those salespeople after all.&quot;</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time to fire the sales team! Online sales rule all!&quot;</span><span class="p">)</span>
+
+    <span class="n">orders</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+
+<span class="c1"># Get the tallies by melon type</span>
+<span class="n">melon_tallies</span> <span class="o">=</span> <span class="n">order_tally</span><span class="p">(</span><span class="s2">&quot;orders-by-type.txt&quot;</span><span class="p">)</span>
+
+<span class="c1"># Print total revenue report</span>
+<span class="n">total_revenue</span><span class="p">(</span><span class="n">melon_tallies</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">()</span>
+
+<span class="c1"># Print online-v-salesperson report</span>
+<span class="n">sales_comparison</span><span class="p">(</span><span class="s2">&quot;orders-with-sales.txt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section class="section" id="notes">
+<h2>Notes</h2>
+<p>There are lots of nice Python style points being demonstrated
+here:</p>
+<ul class="simple">
+<li><p>Good choice of variable names (and use of <code class="docutils literal notranslate"><span class="pre">snake_case</span></code>)</p></li>
+<li><p>Breaking things into well-named functions</p></li>
+<li><p>Lots of whitespace to make it easier to see the organization</p></li>
+</ul>
+</section>
+</section>
+
+        </main>
+
+        <footer id="page-footer">
+            <p>&copy; 2021 Devmountain</p>
+        </footer>
+      </div>
+
+      <script src="../_static/main.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+  </body>
+</html>
